@@ -380,6 +380,8 @@ static int iwl_init_channel_map(struct device *dev, const struct iwl_cfg *cfg,
 			ch_flags =
 				__le16_to_cpup((const __le16 *)nvm_ch_flags + ch_idx);
 
+		ch_flags |= NVM_CHANNEL_IBSS;
+		ch_flags |= NVM_CHANNEL_ACTIVE;
 
 		if (band == NL80211_BAND_5GHZ &&
 		    !data->sku_cap_band_52ghz_enable)
@@ -1601,6 +1603,8 @@ iwl_parse_nvm_mcc_info(struct device *dev, const struct iwl_cfg *cfg,
 		band = iwl_nl80211_band_from_channel_idx(ch_idx);
 		center_freq = ieee80211_channel_to_frequency(nvm_chan[ch_idx],
 							     band);
+		ch_flags |= NVM_CHANNEL_IBSS;
+		ch_flags |= NVM_CHANNEL_ACTIVE;
 		new_rule = false;
 
 		if (!(ch_flags & NVM_CHANNEL_VALID)) {
